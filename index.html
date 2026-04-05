@@ -3,263 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok - Get Coins</title>
+    <title>TikTok Coin Recharge - Full Page</title>
     <style>
-        :root {
-            --tiktok-red: #fe2c55;
-            --border-gray: #ebebeb;
-            --text-black: #161823;
-            --text-gray: #8a8b91;
-        }
-
-        body {
-            font-family: 'SofiaPro', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-            background-color: #ffffff;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 450px;
-            padding: 15px;
-            color: var(--text-black);
-        }
-
-        /* Header Navigation */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-        }
+        :root { --primary-red: #fe2c55; --bg-gray: #f8f8f8; --border-gray: #ebebeb; --text-gray: #8a8b91; }
+        body { font-family: -apple-system, sans-serif; background-color: white; margin: 0; padding: 15px; display: flex; flex-direction: column; height: 100vh; color: #161823; box-sizing: border-box; }
+        
+        /* HEADER (X-Title-⋮) */
+        .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; }
         .header h1 { font-size: 17px; margin: 0; font-weight: 700; }
-        .icon-btn { font-size: 20px; cursor: pointer; }
+        .icon-btn { font-size: 20px; color: #666; cursor: pointer; }
 
-        /* Username Input */
-        .user-input-container {
-            position: relative;
-            margin-bottom: 25px;
-        }
-        .user-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 24px;
-            height: 24px;
-            background: url('https://img.icons8.com/ios-filled/50/000000/user-male-circle.png') no-repeat center;
-            background-size: contain;
-            opacity: 0.8;
-        }
-        .username-input {
-            width: 100%;
-            padding: 12px 12px 12px 45px;
-            border: 1px solid var(--border-gray);
-            border-radius: 4px;
-            font-size: 15px;
-            box-sizing: border-box;
-            background-color: #f8f8f8;
-        }
+        /* USERNAME INPUT */
+        .user-input-container { position: relative; margin-bottom: 25px; }
+        .user-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 22px; opacity: 0.6; }
+        .username-input { width: 100%; padding: 12px 12px 12px 42px; border: 1px solid var(--border-gray); border-radius: 4px; font-size: 14px; box-sizing: border-box; background-color: #fafafa; }
 
-        /* Recharge Section */
-        .recharge-title { font-weight: 700; font-size: 14px; margin-bottom: 5px; }
-        .recharge-promo { 
-            color: var(--tiktok-red); 
-            font-size: 12px; 
-            margin-bottom: 15px; 
-            display: block; 
-        }
+        /* RECHARGE TITLE & PROMO */
+        .recharge-section-title { font-weight: 700; font-size: 14px; margin-bottom: 5px; color: #555; }
+        .promo-text { color: var(--primary-red); font-size: 12px; margin-bottom: 12px; display: block; font-weight: 600; }
 
-        /* Grid */
-        .coin-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
-        }
+        /* COIN GRID (3x2) */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+        .item { border: 1px solid var(--border-gray); border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: 0.2s; position: relative; }
+        .item:hover { border-color: var(--primary-red); background-color: #fff1f3; }
+        .item.active { border: 2px solid var(--primary-red); background-color: #fff1f3; }
+        .coin-icon { color: #f9a825; font-size: 14px; margin-right: 3px; }
+        .item-amt { font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+        .item-price { color: var(--text-gray); font-size: 11px; margin-top: 2px; }
 
-        .coin-card {
-            border: 1px solid var(--border-gray);
-            border-radius: 8px;
-            padding: 12px 5px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        /* Custom item alignment */
+        .item-custom { font-size: 13px; font-weight: 600; color: #161823; margin-top: 6px; }
 
-        .coin-card:hover { border-color: var(--tiktok-red); background-color: #fff1f3; }
-        .coin-card.active { border: 1.5px solid var(--tiktok-red); background-color: #fff1f3; }
+        /* MENU ITEMS (Invite, Add to Desktop) */
+        .menu-row { display: flex; align-items: center; padding: 16px 0; border-top: 1px solid #f1f1f2; cursor: pointer; }
+        .menu-row.last { border-bottom: 1px solid #f1f1f2; margin-bottom: auto; } /* margin-bottom auto pushes everything below down */
+        .menu-icon { font-size: 20px; margin-right: 15px; color: #666; width: 22px; text-align: center; }
+        .menu-main { flex: 1; }
+        .menu-title { font-size: 14px; font-weight: 600; color: #333; }
+        .menu-sub { font-size: 11px; color: var(--text-gray); margin-top: 2px; }
+        .menu-arrow { color: #ccc; font-size: 20px; }
 
-        .coin-amount { font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; }
-        .coin-icon { color: #f9a825; margin-right: 4px; font-size: 14px; }
-        .coin-price { color: var(--text-gray); font-size: 12px; margin-top: 2px; }
+        /* BOTTOM SECTION (Payment + Button) */
+        .bottom-bar { margin-top: auto; padding-top: 20px; }
+        .special-offer { font-size: 11px; color: #ccc; text-align: left; margin-bottom: 15px; }
+        .payment-methods { display: flex; justify-content: space-around; padding: 15px; background: #fafafa; border-radius: 8px; margin-bottom: 20px; }
+        .payment-methods img { height: 16px; opacity: 0.6; }
+        .main-buy-btn { width: 100%; background: var(--primary-red); color: white; border: none; padding: 16px; border-radius: 2px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; }
 
-        /* Menu Items */
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-top: 1px solid #f1f1f2;
-            cursor: pointer;
-        }
-        .menu-icon { font-size: 20px; margin-right: 15px; }
-        .menu-text { flex: 1; }
-        .menu-title { font-size: 14px; font-weight: 600; }
-        .menu-sub { font-size: 12px; color: var(--text-gray); margin-top: 2px; }
-        .arrow { color: #ccc; font-size: 18px; }
-
-        /* Popups */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            width: 80%;
-            max-width: 300px;
-            text-align: center;
-        }
-        .modal input {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: center;
-        }
-        .confirm-btn {
-            background: var(--tiktok-red);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        /* MODAL (Custom Popup) */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; }
+        .modal { background: white; padding: 25px; border-radius: 12px; width: 80%; max-width: 320px; text-align: center; }
+        .modal input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 4px; text-align: center; font-size: 16px; outline: none; box-sizing: border-box; }
+        .modal input:focus { border-color: var(--primary-red); }
+        .modal-btn { background: var(--primary-red); color: white; border: none; padding: 12px; border-radius: 4px; width: 100%; font-weight: bold; cursor: pointer; }
+        .cancel-btn { background: none; border: none; color: gray; margin-top: 10px; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <span class="icon-btn">✕</span>
-        <h1>Get Coins</h1>
-        <span class="icon-btn">⋮</span>
+<div class="header">
+    <span class="icon-btn">✕</span>
+    <h1>Get Coins</h1>
+    <span class="icon-btn">⋮</span>
+</div>
+
+<div class="user-input-container">
+    <img src="https://img.icons8.com/ios-filled/50/666666/user-male-circle.png" class="user-icon" alt="User">
+    <input type="text" id="targetUser" class="username-input" placeholder="Enter username">
+</div>
+
+<div class="recharge-section-title">Recharge</div>
+<span class="promo-text">Save around 25% with a lower third-party service fee. (i)</span>
+
+<div class="grid">
+    <div class="item active" onclick="selectCard(this, 30, 0.31)"><div class="item-amt"><span class="coin-icon">●</span>30</div><div class="item-price">$0.31</div></div>
+    <div class="item" onclick="selectCard(this, 350, 3.65)"><div class="item-amt"><span class="coin-icon">●</span>350</div><div class="item-price">$3.65</div></div>
+    <div class="item" onclick="selectCard(this, 700, 7.25)"><div class="item-amt"><span class="coin-icon">●</span>700</div><div class="item-price">$7.25</div></div>
+    <div class="item" onclick="selectCard(this, 1400, 14.49)"><div class="item-amt"><span class="coin-icon">●</span>1400</div><div class="item-price">$14.49</div></div>
+    <div class="item" onclick="selectCard(this, 3500, 36.20)"><div class="item-amt"><span class="coin-icon">●</span>3500</div><div class="item-price">$36.20</div></div>
+    <div class="item" onclick="showPopup()"><div class="item-custom">Custom</div></div>
+</div>
+
+<div class="menu-row">
+    <span class="menu-icon">🎁</span>
+    <div class="menu-main"><div class="menu-title">Invite & Get Rewards</div><div class="menu-sub">Check out this new feature!</div></div>
+    <span class="menu-arrow">›</span>
+</div>
+<div class="menu-row last">
+    <span class="menu-icon">📱</span>
+    <div class="menu-main"><div class="menu-title">Add to mobile desktop</div><div class="menu-sub">For easy access with just one click</div></div>
+    <span class="menu-arrow">›</span>
+</div>
+
+<div class="bottom-bar">
+    <div class="special-offer">Special offer (i)</div>
+    <div class="payment-methods">
+        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa">
+        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard">
+        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal">
+        <img src="https://img.icons8.com/color/48/google-pay.png" alt="GPay">
     </div>
-
-    <div class="user-input-container">
-        <div class="user-icon"></div>
-        <input type="text" id="targetUser" class="username-input" placeholder="Enter username">
-    </div>
-
-    <div class="recharge-section">
-        <span class="recharge-title">Recharge</span>
-        <span class="recharge-promo">Save around 25% with a lower third-party service fee. ⓘ</span>
-
-        <div class="coin-grid">
-            <div class="coin-card" onclick="selectCard(this, 30)">
-                <div class="coin-amount"><span class="coin-icon">●</span>30</div>
-                <div class="coin-price">$0.31</div>
-            </div>
-            <div class="coin-card" onclick="selectCard(this, 350)">
-                <div class="coin-amount"><span class="coin-icon">●</span>350</div>
-                <div class="coin-price">$3.65</div>
-            </div>
-            <div class="coin-card" onclick="selectCard(this, 700)">
-                <div class="coin-amount"><span class="coin-icon">●</span>700</div>
-                <div class="coin-price">$7.25</div>
-            </div>
-            <div class="coin-card" onclick="selectCard(this, 1400)">
-                <div class="coin-amount"><span class="coin-icon">●</span>1400</div>
-                <div class="coin-price">$14.49</div>
-            </div>
-            <div class="coin-card" onclick="selectCard(this, 3500)">
-                <div class="coin-amount"><span class="coin-icon">●</span>3500</div>
-                <div class="coin-price">$36.2</div>
-            </div>
-            <div class="coin-card" onclick="showPopup('customPopup')">
-                <div class="coin-amount" style="margin-top: 8px;">Custom</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="menu-item">
-        <span class="menu-icon">🎁</span>
-        <div class="menu-text">
-            <div class="menu-title">Invite & Get Rewards</div>
-            <div class="menu-sub">Check out this new feature!</div>
-        </div>
-        <span class="arrow">›</span>
-    </div>
-
-    <div class="menu-item" style="border-bottom: 1px solid #f1f1f2;">
-        <span class="menu-icon">📱</span>
-        <div class="menu-text">
-            <div class="menu-title">Add this page to mobile desktop</div>
-            <div class="menu-sub">For easy access with just one click</div>
-        </div>
-        <span class="arrow">›</span>
-    </div>
-
-    <button class="confirm-btn" style="margin-top: 30px; padding: 15px;" onclick="validateAndSend()">Send Coins</button>
+    <button class="main-buy-btn" id="finalBuyBtn" onclick="processTransfer()">Buy for $0.31</button>
 </div>
 
 <div class="overlay" id="customPopup">
     <div class="modal">
         <h3>Custom Amount</h3>
-        <input type="number" id="customValue" placeholder="How many coins?">
-        <button class="confirm-btn" onclick="applyCustom()">Apply</button>
-        <p style="font-size: 12px; color: grey; margin-top: 10px; cursor: pointer;" onclick="hidePopup('customPopup')">Cancel</p>
+        <p style="font-size:12px;color:grey;margin-top:0">Enter the number of <span class="coin-icon" style="font-size:10px">●</span>coins you want.</p>
+        <input type="number" id="customAmount" placeholder="Min. 100">
+        <button class="modal-btn" onclick="applyCustom()">Apply Amount</button>
+        <button class="cancel-btn" onclick="hidePopup()">Cancel</button>
     </div>
 </div>
 
 <script>
-    let selectedAmount = 0;
+    let selectedAmount = 30; // Default active value
+    let selectedPrice = 0.31; // Default price
 
-    function selectCard(el, amt) {
-        document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
+    function selectCard(el, amt, price) {
+        // Reset active state
+        document.querySelectorAll('.grid .item').forEach(c => c.classList.remove('active'));
+        el.classList.add('active'); // Set new active state
+        
         selectedAmount = amt;
+        selectedPrice = price;
+        updateBuyButton();
     }
 
-    function showPopup(id) {
-        document.getElementById(id).style.display = 'flex';
+    function updateBuyButton() {
+        document.getElementById('finalBuyBtn').innerText = `Buy for $${selectedPrice.toFixed(2)}`;
     }
 
-    function hidePopup(id) {
-        document.getElementById(id).style.display = 'none';
-    }
+    function showPopup() { document.getElementById('customPopup').style.display = 'flex'; }
+    function hidePopup() { document.getElementById('customPopup').style.display = 'none'; }
 
     function applyCustom() {
-        let val = document.getElementById('customValue').value;
-        if(val > 0) {
+        const val = document.getElementById('customAmount').value;
+        if(val >= 100) {
             selectedAmount = val;
-            alert("Custom amount set to " + val);
-            hidePopup('customPopup');
-        }
+            alert(`Custom amount set to ${val} coins.`);
+            // In a real app, you would calculate the price here
+            selectedPrice = 0.00; // Placeholder for logic
+            updateBuyButton();
+            hidePopup();
+        } else { alert("Minimum custom amount is 100 coins."); }
     }
 
-    function validateAndSend() {
-        let user = document.getElementById('targetUser').value;
-        if(!user) {
-            alert("Please enter a username!");
-            return;
-        }
-        if(selectedAmount === 0) {
-            alert("Please select a coin amount!");
-            return;
-        }
-        alert("Sending " + selectedAmount + " coins to " + user);
+    function processTransfer() {
+        const user = document.getElementById('targetUser').value;
+        if(!user) { alert("Please enter a valid username first!"); return; }
+        alert(`Request Sent!\nSending ${selectedAmount} coins to @${user}. Waiting for payment...`);
     }
 </script>
 
