@@ -3,166 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Coin Recharge</title>
+    <title>TikTok - Get Coins</title>
     <style>
-        :root { --tiktok-red: #fe2c55; --bg-gray: #f8f8f8; --text-gray: #888; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-gray); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        
-        .card { width: 380px; background: white; border-radius: 12px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); position: relative; }
-        
-        /* Main Header Logo */
-        .tiktok-header { display: flex; align-items: center; justify-content: center; margin-bottom: 25px; gap: 10px; }
-        .tiktok-logo-img { height: 28px; }
-        h2 { font-size: 20px; text-align: center; margin: 0; font-weight: bold; }
+        :root {
+            --tiktok-red: #fe2c55;
+            --border-gray: #ebebeb;
+            --text-black: #161823;
+            --text-gray: #8a8b91;
+        }
 
-        .input-group { position: relative; margin-bottom: 20px; }
-        .input-group input { width: 100%; padding: 12px 45px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; background: #fafafa; font-size: 14px; }
-        .input-group i { position: absolute; left: 14px; top: 12px; font-style: normal; font-size: 18px; color: var(--text-gray); }
+        body {
+            font-family: 'SofiaPro', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+            background-color: #ffffff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
 
-        .recharge-info { color: var(--tiktok-red); font-size: 12px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 5px; }
-        .info-icon { font-size: 14px; }
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 15px;
+            color: var(--text-black);
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .item { border: 1.5px solid #eee; border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
-        .item:hover { background: #fff1f3; }
-        .item.active { border-color: var(--tiktok-red); background: #fff1f3; }
-        
-        /* Coin icon inside each card */
-        .item .coin-icon { color: var(--tiktok-red); font-weight: bold; font-size: 14px; margin-right: 4px; }
-        
-        .item b { display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 4px; }
-        .item span { font-size: 12px; color: var(--text-gray); display: block; }
-        
-        /* Subtly faded background logo on Custom */
-        .item#custom-trigger::after { content: ''; position: absolute; top: -10px; right: -10px; width: 60px; height: 60px; background-image: url('data:image/svg+xml;utf8,<svg width="30" height="30" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path fill="rgba(254, 44, 85, 0.05)" d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0h88a121.18 121.18 0 0 0 1.86 22.17A122.18 122.18 0 0 0 381 102.39a121.43 121.43 0 0 0 67 20.14Z"/></svg>'); background-repeat: no-repeat; opacity: 1; z-index: 1; pointer-events: none; }
-        .item#custom-trigger b, .item#custom-trigger span { position: relative; z-index: 2; }
+        /* Header Navigation */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+        .header h1 { font-size: 17px; margin: 0; font-weight: 700; }
+        .icon-btn { font-size: 20px; cursor: pointer; }
 
-        .send-btn { width: 100%; background: var(--tiktok-red); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-        .send-btn:hover { background: #e0244b; }
+        /* Username Input */
+        .user-input-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .user-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: url('https://img.icons8.com/ios-filled/50/000000/user-male-circle.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.8;
+        }
+        .username-input {
+            width: 100%;
+            padding: 12px 12px 12px 45px;
+            border: 1px solid var(--border-gray);
+            border-radius: 4px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+        }
 
-        /* Small bottom subtle watermark logo */
-        .tiktok-footer-logo { display: flex; justify-content: center; margin-top: 25px; opacity: 0.2; }
-        .tiktok-footer-logo img { height: 18px; }
+        /* Recharge Section */
+        .recharge-title { font-weight: 700; font-size: 14px; margin-bottom: 5px; }
+        .recharge-promo { 
+            color: var(--tiktok-red); 
+            font-size: 12px; 
+            margin-bottom: 15px; 
+            display: block; 
+        }
 
-        /* MODAL / POPUP STYLES */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-        .modal { background: white; padding: 25px; border-radius: 16px; width: 300px; text-align: center; animation: popIn 0.2s ease-out; box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        /* Grid */
+        .coin-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
 
-        .modal h3 { margin-top: 0; font-size: 18px; margin-bottom: 10px; }
-        .modal p { color: var(--text-gray); font-size: 14px; line-height: 1.4; margin-bottom: 20px; }
-        .modal input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; text-align: center; font-size: 18px; outline: none; transition: 0.2s; }
-        .modal input:focus { border-color: var(--tiktok-red); background: #fafafa; }
-        .modal-btns { display: flex; gap: 10px; }
-        .modal-btns button { flex: 1; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.2s; }
-        .btn-confirm { background: var(--tiktok-red); color: white; }
-        .btn-confirm:hover { background: #e0244b; }
-        .btn-cancel { background: #eee; color: #333; }
-        .btn-cancel:hover { background: #e0e0e0; }
+        .coin-card {
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 12px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .coin-card:hover { border-color: var(--tiktok-red); background-color: #fff1f3; }
+        .coin-card.active { border: 1.5px solid var(--tiktok-red); background-color: #fff1f3; }
+
+        .coin-amount { font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+        .coin-icon { color: #f9a825; margin-right: 4px; font-size: 14px; }
+        .coin-price { color: var(--text-gray); font-size: 12px; margin-top: 2px; }
+
+        /* Menu Items */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-top: 1px solid #f1f1f2;
+            cursor: pointer;
+        }
+        .menu-icon { font-size: 20px; margin-right: 15px; }
+        .menu-text { flex: 1; }
+        .menu-title { font-size: 14px; font-weight: 600; }
+        .menu-sub { font-size: 12px; color: var(--text-gray); margin-top: 2px; }
+        .arrow { color: #ccc; font-size: 18px; }
+
+        /* Popups */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .confirm-btn {
+            background: var(--tiktok-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="tiktok-header">
-        <img src="https://img.icons8.com/fluent-systems-filled/96/fe2c55/tiktok.png" alt="TikTok Logo" class="tiktok-logo-img">
-        <h2>Get Coins</h2>
-    </div>
-    
-    <div class="input-group">
-        <i>👤</i>
-        <input type="text" id="username" placeholder="Enter username">
+<div class="app-container">
+    <div class="header">
+        <span class="icon-btn">✕</span>
+        <h1>Get Coins</h1>
+        <span class="icon-btn">⋮</span>
     </div>
 
-    <div class="recharge-info"><span class="info-icon">ⓘ</span> Save around 25% with direct recharge</div>
-
-    <div class="grid">
-        <div class="item" onclick="select(30, 0.31, this)"><b><span class="coin-icon">©</span>30</b><span>$0.31</span></div>
-        <div class="item" onclick="select(350, 3.65, this)"><b><span class="coin-icon">©</span>350</b><span>$3.65</span></div>
-        <div class="item" onclick="select(700, 7.25, this)"><b><span class="coin-icon">©</span>700</b><span>$7.25</span></div>
-        <div class="item" onclick="select(1400, 14.49, this)"><b><span class="coin-icon">©</span>1400</b><span>$14.49</span></div>
-        <div class="item" onclick="select(3500, 36.20, this)"><b><span class="coin-icon">©</span>3500</b><span>$36.20</span></div>
-        <div class="item" id="custom-trigger" onclick="openModal('customModal')"><b>Custom</b><span>Any qty</span></div>
+    <div class="user-input-container">
+        <div class="user-icon"></div>
+        <input type="text" id="targetUser" class="username-input" placeholder="Enter username">
     </div>
 
-    <button class="send-btn" onclick="openConfirm()"><span style="font-size: 1.2em; font-weight: normal;">🚀</span>Send Coins</button>
-    
-    <div class="tiktok-footer-logo">
-        <img src="https://img.icons8.com/fluent-systems-filled/96/333333/tiktok.png" alt="Faded TikTok Logo">
+    <div class="recharge-section">
+        <span class="recharge-title">Recharge</span>
+        <span class="recharge-promo">Save around 25% with a lower third-party service fee. ⓘ</span>
+
+        <div class="coin-grid">
+            <div class="coin-card" onclick="selectCard(this, 30)">
+                <div class="coin-amount"><span class="coin-icon">●</span>30</div>
+                <div class="coin-price">$0.31</div>
+            </div>
+            <div class="coin-card" onclick="selectCard(this, 350)">
+                <div class="coin-amount"><span class="coin-icon">●</span>350</div>
+                <div class="coin-price">$3.65</div>
+            </div>
+            <div class="coin-card" onclick="selectCard(this, 700)">
+                <div class="coin-amount"><span class="coin-icon">●</span>700</div>
+                <div class="coin-price">$7.25</div>
+            </div>
+            <div class="coin-card" onclick="selectCard(this, 1400)">
+                <div class="coin-amount"><span class="coin-icon">●</span>1400</div>
+                <div class="coin-price">$14.49</div>
+            </div>
+            <div class="coin-card" onclick="selectCard(this, 3500)">
+                <div class="coin-amount"><span class="coin-icon">●</span>3500</div>
+                <div class="coin-price">$36.2</div>
+            </div>
+            <div class="coin-card" onclick="showPopup('customPopup')">
+                <div class="coin-amount" style="margin-top: 8px;">Custom</div>
+            </div>
+        </div>
     </div>
+
+    <div class="menu-item">
+        <span class="menu-icon">🎁</span>
+        <div class="menu-text">
+            <div class="menu-title">Invite & Get Rewards</div>
+            <div class="menu-sub">Check out this new feature!</div>
+        </div>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="menu-item" style="border-bottom: 1px solid #f1f1f2;">
+        <span class="menu-icon">📱</span>
+        <div class="menu-text">
+            <div class="menu-title">Add this page to mobile desktop</div>
+            <div class="menu-sub">For easy access with just one click</div>
+        </div>
+        <span class="arrow">›</span>
+    </div>
+
+    <button class="confirm-btn" style="margin-top: 30px; padding: 15px;" onclick="validateAndSend()">Send Coins</button>
 </div>
 
-<div class="modal-overlay" id="customModal">
+<div class="overlay" id="customPopup">
     <div class="modal">
         <h3>Custom Amount</h3>
-        <p>Enter the exact number of <span style="color:var(--tiktok-red);font-weight:bold">©</span>coins</p>
-        <input type="number" id="customInput" placeholder="Minimum 100">
-        <div class="modal-btns">
-            <button class="btn-cancel" onclick="closeModal('customModal')">Cancel</button>
-            <button class="btn-confirm" onclick="applyCustom()">Apply</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay" id="confirmModal">
-    <div class="modal">
-        <h3>Confirm Transfer</h3>
-        <p id="confirmMsg"></p>
-        <div class="modal-btns">
-            <button class="btn-cancel" onclick="closeModal('confirmModal')">Cancel</button>
-            <button class="btn-confirm" onclick="finish()">Confirm</button>
-        </div>
+        <input type="number" id="customValue" placeholder="How many coins?">
+        <button class="confirm-btn" onclick="applyCustom()">Apply</button>
+        <p style="font-size: 12px; color: grey; margin-top: 10px; cursor: pointer;" onclick="hidePopup('customPopup')">Cancel</p>
     </div>
 </div>
 
 <script>
     let selectedAmount = 0;
 
-    function select(amt, price, el) {
-        selectedAmount = amt;
-        document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
+    function selectCard(el, amt) {
+        document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
         el.classList.add('active');
+        selectedAmount = amt;
     }
 
-    function openModal(id) {
+    function showPopup(id) {
         document.getElementById(id).style.display = 'flex';
-        if(id === 'customModal') {
-            document.getElementById('customInput').focus();
-        }
     }
 
-    function closeModal(id) {
+    function hidePopup(id) {
         document.getElementById(id).style.display = 'none';
-        if(id === 'customModal') {
-            document.getElementById('customInput').value = ''; // Reset input
-        }
     }
 
     function applyCustom() {
-        const val = document.getElementById('customInput').value;
-        if(val >= 100) {
+        let val = document.getElementById('customValue').value;
+        if(val > 0) {
             selectedAmount = val;
-            document.querySelectorAll('.item').forEach(i => i.classList.remove('active'));
-            document.getElementById('custom-trigger').classList.add('active');
-            closeModal('customModal');
-        } else {
-            alert("Minimum custom amount is 100 coins.");
+            alert("Custom amount set to " + val);
+            hidePopup('customPopup');
         }
     }
 
-    function openConfirm() {
-        const user = document.getElementById('username').value.trim();
-        if(!user) return alert("Please enter a username!");
-        if(selectedAmount <= 0) return alert("Please select an amount!");
-
-        document.getElementById('confirmMsg').innerHTML = `Are you sure you want to send <b>${selectedAmount} <span style="color:var(--tiktok-red)">©</span>coins</b> to <b>@${user}</b>?`;
-        openModal('confirmModal');
-    }
-
-    function finish() {
-        closeModal('confirmModal');
-        alert("Transaction successful!");
-        location.reload();
+    function validateAndSend() {
+        let user = document.getElementById('targetUser').value;
+        if(!user) {
+            alert("Please enter a username!");
+            return;
+        }
+        if(selectedAmount === 0) {
+            alert("Please select a coin amount!");
+            return;
+        }
+        alert("Sending " + selectedAmount + " coins to " + user);
     }
 </script>
 
