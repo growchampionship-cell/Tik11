@@ -3,42 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Recharge - Custom Flow</title>
+    <title>TikTok Recharge</title>
     <style>
-        :root { --tiktok-red: #fe2c55; --coin-gold: #face15; --text-gray: #8a8b91; }
-        body { font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 15px; background: #fff; color: #161823; }
+        :root { --tiktok-red: #fe2c55; --coin-gold: #face15; --text-gray: #8a8b91; --soft-bg: #f8f8f8; }
+        body { font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 15px; background: #fff; color: #161823; overflow-x: hidden; }
         
         .nav { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; }
         .nav-title { font-size: 17px; font-weight: 700; }
 
-        /* Actual TikTok Coin Style */
+        /* REAL TIKTOK COIN SVG */
         .tk-coin { width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; }
 
-        .user-box { margin-bottom: 20px; }
-        .user-input { width: 100%; padding: 12px; border: 1px solid #ebebeb; border-radius: 4px; background: #f8f8f8; box-sizing: border-box; font-size: 15px; outline: none; }
+        /* Balance Header */
+        .balance-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding: 5px 0; border-bottom: 1px solid #f1f1f2; padding-bottom: 15px; }
+        .tk-avatar { width: 44px; height: 44px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .balance-info b { font-size: 15px; display: block; }
+        .balance-info span { font-size: 13px; color: var(--text-gray); display: flex; align-items: center; }
 
+        /* Input */
+        .user-box { margin-bottom: 20px; }
+        .user-input { width: 100%; padding: 12px 15px; border: 1px solid #ebebeb; border-radius: 4px; background: var(--soft-bg); box-sizing: border-box; font-size: 15px; outline: none; }
+
+        /* Recharge Labels */
+        .section-label { font-weight: 700; font-size: 14px; margin-bottom: 4px; color: #161823; }
         .promo-red { color: var(--tiktok-red); font-size: 12px; margin-bottom: 15px; font-weight: 600; }
 
-        /* Grid */
+        /* Coin Grid */
         .coin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
         .coin-card { border: 1px solid #ebebeb; border-radius: 8px; padding: 14px 4px; text-align: center; cursor: pointer; background: #fff; }
         .coin-card.active { border: 1.5px solid var(--tiktok-red); background: #fff1f3; }
-        .coin-val { font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .coin-val { font-weight: 700; font-size: 16px; margin-bottom: 2px; display: flex; align-items: center; justify-content: center; }
         .coin-price { color: var(--text-gray); font-size: 11px; }
 
-        /* Footer & Payments */
-        .footer { margin-top: 30px; text-align: center; border-top: 1px solid #f1f1f2; padding-top: 20px; }
-        .pay-methods { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .pay-methods img { height: 20px; filter: grayscale(1); opacity: 0.6; }
-        
+        /* Footer Buy Section */
+        .footer { margin-top: auto; padding-top: 20px; }
+        .special-offer { font-size: 12px; color: #161823; margin-bottom: 15px; }
+        .payment-methods { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; opacity: 0.8; }
+        .payment-methods img { height: 18px; }
         .buy-btn { width: 100%; background: var(--tiktok-red); color: white; border: none; padding: 16px; border-radius: 2px; font-weight: bold; font-size: 16px; cursor: pointer; }
 
-        /* POPUP STYLES */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; justify-content: center; align-items: center; }
-        .modal { background: white; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .modal h3 { margin: 0 0 10px 0; font-size: 18px; }
-        .modal input { width: 100%; padding: 15px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 24px; font-weight: bold; outline: none; color: var(--tiktok-red); }
-        .modal-btn { background: var(--tiktok-red); color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; font-size: 16px; cursor: pointer; }
+        /* Custom Popup */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; }
+        .modal { background: white; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; }
+        .modal input { width: 100%; padding: 15px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 24px; font-weight: bold; color: var(--tiktok-red); }
     </style>
 </head>
 <body>
@@ -49,100 +56,116 @@
         <span style="font-size: 20px;">⋮</span>
     </div>
 
+    <div class="balance-header">
+        <div class="tk-avatar">👤</div>
+        <div class="balance-info">
+            <b>Recharge</b>
+            <span>
+                <svg class="tk-coin" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+                5,003,500
+            </span>
+        </div>
+    </div>
+
     <div class="user-box">
         <input type="text" id="userInput" class="user-input" placeholder="Enter username">
     </div>
 
+    <div class="section-label">Recharge</div>
     <div class="promo-red">Save around 25% with a lower third-party service fee. ⓘ</div>
 
-    <div class="coin-grid" id="grid">
-        <div class="coin-card active" onclick="selectCard(this, 30, 0.31)">
-            <div class="coin-val">🪙 30</div>
+    <div class="coin-grid">
+        <div class="coin-card active" onclick="sel(this, 30, 0.31)">
+            <div class="coin-val">
+                <svg class="tk-coin" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+                30
+            </div>
             <div class="coin-price">$0.31</div>
         </div>
-        <div class="coin-card" onclick="selectCard(this, 350, 3.65)">
-            <div class="coin-val">🪙 350</div>
+        <div class="coin-card" onclick="sel(this, 350, 3.65)">
+            <div class="coin-val">
+                <svg class="tk-coin" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+                350
+            </div>
             <div class="coin-price">$3.65</div>
         </div>
-        <div class="coin-card" onclick="selectCard(this, 700, 7.25)">
-            <div class="coin-val">🪙 700</div>
+        <div class="coin-card" onclick="sel(this, 700, 7.25)">
+            <div class="coin-val">
+                <svg class="tk-coin" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+                700
+            </div>
             <div class="coin-price">$7.25</div>
         </div>
-        <div class="coin-card" onclick="selectCard(this, 1400, 14.49)">
-            <div class="coin-val">🪙 1400</div>
+        <div class="coin-card" onclick="sel(this, 1400, 14.49)">
+            <div class="coin-val">
+                <svg class="tk-coin" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+                1400
+            </div>
             <div class="coin-price">$14.49</div>
         </div>
-        <div class="coin-card" onclick="selectCard(this, 3500, 36.20)">
-            <div class="coin-val">🪙 3500</div>
+        <div class="coin-card" onclick="sel(this, 3500, 36.20)">
+            <div class="coin-val">
+                <svg class="tk-coin" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+                3500
+            </div>
             <div class="coin-price">$36.20</div>
         </div>
-        <div class="coin-card" id="customBtn" onclick="openPopup()">
+        <div class="coin-card" onclick="openModal()">
             <div class="coin-val" style="margin-top: 8px; font-size: 14px; color: #555;">Custom</div>
         </div>
     </div>
 
     <div class="footer">
-        <div class="pay-methods">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+        <div class="special-offer">Special offer <span style="float:right; color:var(--tiktok-red)">Unlock 5% cash back ›</span></div>
+        <div class="payment-methods">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_Logo.svg" alt="GPay">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Master">
         </div>
-        <button id="buyBtn" class="buy-btn" onclick="finalize()">Buy for $0.31</button>
+        <button id="buyBtn" class="buy-btn" onclick="finish()">Buy for $0.31</button>
     </div>
 
-    <div class="overlay" id="popup">
+    <div class="overlay" id="modal">
         <div class="modal">
-            <div style="font-size: 40px; margin-bottom: 10px;">🪙</div>
-            <h3>Enter Coin Amount</h3>
-            <p style="font-size: 12px; color: gray;">Min. 100 coins</p>
-            <input type="number" id="customAmountInput" placeholder="0">
-            <button class="modal-btn" onclick="applyCustom()">Apply & Send</button>
-            <p style="margin-top: 15px; font-size: 13px; color: gray; cursor: pointer;" onclick="closePopup()">Cancel</p>
+            <svg class="tk-coin" style="width:40px; height:40px;" viewBox="0 0 50 50"><circle cx="25" cy="25" r="23" fill="#face15"/><text x="50%" y="50%" text-anchor="middle" fill="#fff" font-weight="bold" font-size="28px" dy=".3em">d</text></svg>
+            <h3>Custom Amount</h3>
+            <p style="font-size:12px; color:gray;">How many coins do you want to send?</p>
+            <input type="number" id="customIn" placeholder="0">
+            <button class="buy-btn" onclick="applyCustom()">Confirm & Update</button>
+            <p style="color:gray; font-size:13px; margin-top:15px; cursor:pointer;" onclick="closeModal()">Cancel</p>
         </div>
     </div>
 
     <script>
         let currentPrice = 0.31;
-        let currentCoins = 30;
+        let currentAmt = 30;
 
-        function selectCard(el, amt, price) {
+        function sel(el, amt, price) {
             document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
             currentPrice = price;
-            currentCoins = amt;
+            currentAmt = amt;
             document.getElementById('buyBtn').innerText = `Buy for $${price.toFixed(2)}`;
         }
 
-        function openPopup() {
-            document.getElementById('popup').style.display = 'flex';
-        }
-
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-        }
+        function openModal() { document.getElementById('modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
         function applyCustom() {
-            const val = document.getElementById('customAmountInput').value;
-            if(val >= 100) {
-                currentCoins = val;
-                // Simple math: approx $0.0104 per coin
-                currentPrice = val * 0.0104; 
-                
-                document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
-                document.getElementById('customBtn').classList.add('active');
+            let val = document.getElementById('customIn').value;
+            if(val > 0) {
+                currentAmt = val;
+                currentPrice = val * 0.0105; 
                 document.getElementById('buyBtn').innerText = `Buy for $${currentPrice.toFixed(2)}`;
-                
-                closePopup();
-            } else {
-                alert("Please enter at least 100 coins.");
+                document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
+                closeModal();
             }
         }
 
-        function finalize() {
-            const user = document.getElementById('userInput').value;
-            if(!user) return alert("Please enter a username first.");
-            alert(`Confirmed! Sending ${currentCoins} coins to @${user}. Opening Payment Gateway...`);
+        function finish() {
+            let user = document.getElementById('userInput').value;
+            if(!user) return alert("Please enter username");
+            alert(`Processing: Sending ${currentAmt} coins to @${user}`);
         }
     </script>
 </body>
